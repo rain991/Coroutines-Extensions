@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci
+package io.github.rain991.extensions
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
