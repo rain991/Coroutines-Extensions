@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class MapAsyncTest {
 
     @Test
-    fun `transforms all elements`() = runTest{
+    fun `transforms all elements`() = runTest {
         val list = listOf(1, 2, 3, 10)
 
         val result = list.map { it * 2 }
@@ -19,22 +19,22 @@ class MapAsyncTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `preserves order of elements`() = runTest{
+    fun `preserves order of elements`() = runTest {
         val list = listOf(1, 2, 3, 10)
 
         val result = list.mapAsync {
             delay(100)
-            if(it == 3) {
+            if (it == 3) {
                 delay(1000)
             }
             it * 2
         }
         assertEquals(listOf(2, 4, 6, 20), result)
-        assertEquals(1100L,currentTime)
+        assertEquals(1100L, currentTime)
     }
 
     @Test
-    fun`empty list results in empty list`() = runTest{
+    fun `empty list results in empty list`() = runTest {
         val list = emptyList<Int>()
 
         val result = list.mapAsync { it * 2 }

@@ -25,7 +25,7 @@ import kotlinx.coroutines.coroutineScope
  * - If any transform fails, all other coroutines will be cancelled.
  */
 suspend fun <T, R> Iterable<T>.mapAsync(transform: suspend (T) -> R): List<R> = coroutineScope {
-    map{
+    map {
         async { transform(it) }
     }.awaitAll()
 }
