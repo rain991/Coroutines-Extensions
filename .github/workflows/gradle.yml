@@ -22,20 +22,22 @@ jobs:
 
       - name: Update README.md with Dokka docs
         run: |
-               DOCS_DIR="library/build/dokka/markdown/library/io.github.rain991.extensions"
-               TMP_DOCS=$(mktemp)
-               
-               # Combine all generated markdown files
-               cat $DOCS_DIR/*.md > $TMP_DOCS
-               
-               # Replace placeholder in README.md
-               sed -i.bak '/<!-- DOCS START -->/,/<!-- DOCS END -->/c \
-               <!-- DOCS START -->\
-               '"$(cat $TMP_DOCS)"'\
-               <!-- DOCS END -->' README.md
-          
-               git config --local user.name "github-actions[bot]"
-               git config --local user.email "github-actions[bot]@users.noreply.github.com"
-               git add README.md
-               git diff --cached --quiet || git commit -m "Update README.md with Dokka docs"
-               git push
+          DOCS_DIR="library/build/dokka/markdown/library/io.github.rain991.extensions"
+
+          # Combine all generated markdown files
+          cat $DOCS_DIR/*.md > combined_docs.md
+
+          # Replace placeholder in README.md
+          awk '
+          BEGIN { inside=0 }
+          /<!-- DOCS START -->/ { print; inside=1; next }
+          /<!-- DOCS END -->/ { print; inside=0; next }
+          !inside { print }
+          END { system("cat combined_docs.md") }
+          ' README.md > README.tmp && mv README.tmp README.md
+
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --cached --quiet || git commit -m "Update README.md with Dokka docs"
+          git push
