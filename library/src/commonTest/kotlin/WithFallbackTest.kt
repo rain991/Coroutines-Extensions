@@ -82,4 +82,24 @@ class WithFallbackTest {
             awaitError()
         }
     }
+
+    @Test
+    fun `emits fallbackFlow values when fallbackWhen satisfied`() = runTest {
+        val flow = flow {
+            emit(1)
+            throw ArithmeticException()
+            emit(2)
+        }
+        val fallbackFlow = flow {
+            emit(4)
+            emit(5)
+        }
+
+        flow.withFallback(fallbackWhen = { it !is ArithmeticException }) {
+            fallbackFlow
+        }.test {
+            assertEquals(1, awaitItem())
+            awaitError()
+        }
+    }
 }
