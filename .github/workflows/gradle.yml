@@ -9,24 +9,40 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: temurin
+
+      - name: Build and test
+        run: ./gradlew build
+
       - name: Generate Dokka Markdown
         run: ./gradlew library:dokkaGenerateMarkdown
-      - name: Update README.md with Dokka docs (local only)
+
+      - name: Update README.md with Dokka docs
         run: |
           DOCS_DIR="library/build/dokka/markdown/library/io.github.rain991.extensions"
           TMP_DOCS=$(mktemp)
           cat $DOCS_DIR/*.md > $TMP_DOCS
-          sed -i.bak '/<!-- DOCS START -->/,/<!-- DOCS END -->/c\
-          <!-- DOCS START -->\
-          '"$(cat $TMP_DOCS)"'\
-          <!-- DOCS END -->' README.md
-      - name: Show README diff
-        run: git --no-pager diff README.md
+
+          awk -v docs="$TMP_DOCS" '
+          BEGIN {start=0}
+          /<!-- DOCS START -->/ {print; system("cat " docs); start=1; next}
+          /<!-- DOCS END -->/ {start=0}
+          start==1 {next}
+          {print}
+          ' README.md > README.new.md
+
+          mv README.new.md README.md
+
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+          git diff --cached --quiet || git commit -m "Update README.md with Dokka docs [skip ci]"
+          git push
