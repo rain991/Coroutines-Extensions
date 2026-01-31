@@ -7,6 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
+@Suppress("KotlinUnreachableCode")
 class TimeoutOrNullTest {
     @Test
     fun `returns null when flow timeouts`() = runTest {

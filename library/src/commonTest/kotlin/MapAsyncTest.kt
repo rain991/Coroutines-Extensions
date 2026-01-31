@@ -38,6 +38,6 @@ class MapAsyncTest {
         val list = emptyList<Int>()
 
         val result = list.mapAsync { it * 2 }
-        assertEquals(emptyList<Int>(), result)
+        assertEquals(emptyList(), result)
     }
 }

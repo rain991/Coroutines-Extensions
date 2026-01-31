@@ -8,7 +8,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class PairwiseTest {
-
     // Verifies the example mentioned in pairwise KDOC.
     @Test
     fun `emits consecutive pairs`() = runTest {

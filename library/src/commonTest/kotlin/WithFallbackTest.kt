@@ -7,6 +7,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@Suppress("KotlinUnreachableCode")
 class WithFallbackTest {
     @Test
     fun `emits all values from primary flow when no exception occurred`() = runTest {
