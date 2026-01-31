@@ -8,10 +8,13 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Runs two flows at the same time and returns the value from the one that emits first.
+ * Runs two flows at the same time and returns the value from flow that emits first.
  *
  * Both flows are collected concurrently.
- * As soon as one flow emits a value, the other flow is cancelled.
+ *
+ * Only the first value is emitted.
+ *
+ * If both flows have failed, returns the last exception.
  *
  * Example:
  * ```
