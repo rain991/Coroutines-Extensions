@@ -4,8 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 /**
- * Emits pairs of values from the upstream flow.
- *
  * For each emission after the first, emits a Pair(previous, current).
  *
  * Example:
