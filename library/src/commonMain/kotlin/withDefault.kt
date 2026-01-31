@@ -31,12 +31,13 @@ fun <T> Flow<T>.withDefault(default: T): Flow<T> = flow {
  * Example:
  * ```
  * val failingFlow = flow {
+ *     emit(1)
  *     throw ArithmeticException()
  *     emit(2)
  * }
- * failingFlow.withDefault(50) { it is ArithmeticException }.collect { println(it) }
- * // Output: 50
+ * failingFlow.withDefault(0) { it is ArithmeticException }.collect { println(it) }
  * ```
+ * Result is 1, 0
  *
  * @param default the value to emit if no value is emitted.
  * @param shouldDefault returns [default] when true
