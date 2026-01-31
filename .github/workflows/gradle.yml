@@ -12,44 +12,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: temurin
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-
-
-      - name: Build & Test
-        run: ./gradlew build --no-configuration-cache
-
       - name: Generate Dokka Markdown
         run: ./gradlew library:dokkaGenerateMarkdown
-
-      - name: Update README.md
+      - name: Update README.md with Dokka docs (local only)
         run: |
           DOCS_DIR="library/build/dokka/markdown/library/io.github.rain991.extensions"
           TMP_DOCS=$(mktemp)
-
           cat $DOCS_DIR/*.md > $TMP_DOCS
-
-          sed '/<!-- DOCS START -->/,/<!-- DOCS END -->/{
-            r '"$TMP_DOCS"'
-            d
-          }' README.md > README.tmp && mv README.tmp README.md
-
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-
-          if ! git diff --quiet README.md; then
-            git add README.md
-            git commit -m "Update README.md with Dokka docs [skip ci]"
-            git push
-          fi
+          sed -i.bak '/<!-- DOCS START -->/,/<!-- DOCS END -->/c\
+          <!-- DOCS START -->\
+          '"$(cat $TMP_DOCS)"'\
+          <!-- DOCS END -->' README.md
+      - name: Show README diff
+        run: git --no-pager diff README.md
