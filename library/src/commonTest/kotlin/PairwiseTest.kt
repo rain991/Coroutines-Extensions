@@ -37,7 +37,7 @@ class PairwiseTest {
     }
 
     @Test
-    fun `exceptions are propagated`() = runTest{
+    fun `exceptions are propagated`() = runTest {
         val flowWithException = flow<Int> {
             emit(1)
             throw RuntimeException()
