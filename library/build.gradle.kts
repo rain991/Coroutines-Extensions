@@ -1,42 +1,10 @@
-import org.jetbrains.dokka.gradle.formats.DokkaFormatPlugin
-import org.jetbrains.dokka.gradle.internal.InternalDokkaGradlePluginApi
+import java.net.URI
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.vanniktech.mavenPublish)
     alias(libs.plugins.dokka)
 }
-
-@OptIn(InternalDokkaGradlePluginApi::class)
-abstract class DokkaMarkdownPlugin : DokkaFormatPlugin(formatName = "markdown") {
-    override fun DokkaFormatPlugin.DokkaFormatPluginContext.configure() {
-        project.dependencies {
-            // Sets up generation for the current project
-            dokkaPlugin(dokka("gfm-plugin"))
-
-            // Sets up multi-project generation
-            formatDependencies.dokkaPublicationPluginClasspathApiOnly.dependencies.addLater(
-                dokka("gfm-template-processing-plugin")
-            )
-        }
-    }
-}
-apply<DokkaMarkdownPlugin>()
-
-tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
-    dokkaSourceSets {
-        named("commonMain") {
-            includeNonPublic = false
-            reportUndocumented = false
-            skipEmptyPackages = true
-            suppressObviousFunctions = true
-            skipDeprecated = true
-            externalDocumentationLink { }
-            noStdlibLink = true
-        }
-    }
-}
-
 
 group = "io.github.kotlin"
 version = "1.0.0"
@@ -58,35 +26,45 @@ kotlin {
 }
 
 mavenPublishing {
-    publishToMavenCentral()
+    publishToMavenCentral(automaticRelease = true)
 
     signAllPublications()
 
-    coordinates(group.toString(), "library", version.toString())
+    coordinates(group.toString(), "coroutines-extensions", version.toString())
 
     pom {
-        name = "My library"
-        description = "A library."
-        inceptionYear = "2024"
-        url = "https://github.com/kotlin/multiplatform-library-template/"
+        name = "Coroutines extensions"
+        description = "Helpful functions for Kotlin's coroutines and flow"
+
         licenses {
             license {
-                name = "XXX"
-                url = "YYY"
-                distribution = "ZZZ"
+                name.set("Apache-2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("repo")
             }
         }
         developers {
             developer {
-                id = "XXX"
-                name = "YYY"
-                url = "ZZZ"
+                id = "rain991"
+                name = "Ivan Savenko"
+                url = "savenkoivan931@gmail.com"
             }
         }
         scm {
-            url = "XXX"
-            connection = "YYY"
-            developerConnection = "ZZZ"
+            url.set("https://github.com/rain991/Coroutines-Extensions")
+            connection.set("scm:git:git://github.com/rain991/Coroutines-Extensions.git")
+            developerConnection.set("scm:git:ssh://git@github.com:rain991/Coroutines-Extensions.git")
+        }
+    }
+}
+
+dokka {
+    moduleName.set("Coroutines Extensions")
+
+    dokkaSourceSets.commonMain{
+        sourceLink {
+            localDirectory.set(file("src/commonMain"))
+            remoteUrl.set(URI("https://github.com/rain991/Coroutines-Extensions"))
         }
     }
 }
