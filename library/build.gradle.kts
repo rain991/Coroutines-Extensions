@@ -23,6 +23,21 @@ abstract class DokkaMarkdownPlugin : DokkaFormatPlugin(formatName = "markdown") 
 }
 apply<DokkaMarkdownPlugin>()
 
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
+    dokkaSourceSets {
+        named("commonMain") {
+            includeNonPublic = false
+            reportUndocumented = false
+            skipEmptyPackages = true
+            suppressObviousFunctions = true
+            skipDeprecated = true
+            externalDocumentationLink { }
+            noStdlibLink = true
+        }
+    }
+}
+
+
 group = "io.github.kotlin"
 version = "1.0.0"
 
