@@ -31,6 +31,7 @@ mavenPublishing {
     signAllPublications()
 
     coordinates("io.github.rain991", "coroutines-extensions", version = version as String)
+
     pom {
         name = "Coroutines extensions"
         description = "Helpful functions for Kotlin's coroutines and flow"

@@ -14,8 +14,10 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
+      - name: Clean previous publications
+        run: rm -rf build/publications
       - name: Publish to MavenCentral
-        run: ./gradlew publishToMavenCentral --no-configuration-cache
+        run: ./gradlew publishToMavenCentral --no-configuration-cache --rerun-tasks
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
