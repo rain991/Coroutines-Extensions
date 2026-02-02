@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-group = "io.github.kotlin"
+group = "io.github.rain991"
 version = "1.0.0"
 
 kotlin {
@@ -30,11 +30,11 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), "coroutines-extensions", version.toString())
-
+    coordinates("io.github.rain991", "coroutines-extensions", version = version as String)
     pom {
         name = "Coroutines extensions"
         description = "Helpful functions for Kotlin's coroutines and flow"
+        url = "https://github.com/rain991/Coroutines-Extensions"
 
         licenses {
             license {
@@ -47,7 +47,7 @@ mavenPublishing {
             developer {
                 id = "rain991"
                 name = "Ivan Savenko"
-                url = "savenkoivan931@gmail.com"
+                url = "https://github.com/rain991"
             }
         }
         scm {
