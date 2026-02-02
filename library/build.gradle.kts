@@ -27,15 +27,13 @@ kotlin {
 
 mavenPublishing {
     publishToMavenCentral(automaticRelease = true)
-
-    signAllPublications()
-
     coordinates("io.github.rain991", "coroutines-extensions", version = version as String)
+    signAllPublications()
 
     pom {
         name = "Coroutines extensions"
         description = "Helpful functions for Kotlin's coroutines and flow"
-        url = "https://github.com/rain991/Coroutines-Extensions"
+        url = "https://github.com/rain991/Coroutines-Extensions/"
 
         licenses {
             license {
@@ -48,11 +46,11 @@ mavenPublishing {
             developer {
                 id = "rain991"
                 name = "Ivan Savenko"
-                url = "https://github.com/rain991"
+                url = "https://github.com/rain991/"
             }
         }
         scm {
-            url.set("https://github.com/rain991/Coroutines-Extensions")
+            url.set("https://github.com/rain991/Coroutines-Extensions/")
             connection.set("scm:git:git://github.com/rain991/Coroutines-Extensions.git")
             developerConnection.set("scm:git:ssh://git@github.com:rain991/Coroutines-Extensions.git")
         }
