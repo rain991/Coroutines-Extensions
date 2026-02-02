@@ -1,0 +1,1 @@
+This library was inspired by Kotlin expert Marcin Moskala and his wonderful course about coroutines.
