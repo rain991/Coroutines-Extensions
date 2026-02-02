@@ -34,7 +34,7 @@ mavenPublishing {
         name = "Coroutines extensions"
         description = "Helpful functions for Kotlin's coroutines and flow"
         url = "https://github.com/rain991/Coroutines-Extensions/"
-
+        inceptionYear = "2026"
         licenses {
             license {
                 name.set("Apache-2.0")
